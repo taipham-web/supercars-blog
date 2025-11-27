@@ -6,9 +6,9 @@ import matter from "gray-matter";
 const contentDirectory = path.join(process.cwd(), "content");
 
 export function getCarsByBrand(brandSlug) {
+  const safeBrand = brandSlug.toLowerCase();
   // 1. Xác định đường dẫn folder của hãng (VD: content/porsche)
-  const brandDirectory = path.join(contentDirectory, brandSlug);
-
+  const brandDirectory = path.join(contentDirectory, safeBrand);
   // 2. Kiểm tra nếu folder không tồn tại (tránh lỗi crash app)
   if (!fs.existsSync(brandDirectory)) {
     return [];
@@ -33,7 +33,7 @@ export function getCarsByBrand(brandSlug) {
       // Trả về object chứa thông tin xe
       return {
         slug: fileName.replace(/\.mdx$/, ""), // Xóa đuôi .mdx để làm ID (VD: 911-GT3)
-        brand: brandSlug,
+        brand: safeBrand,
         ...data, // Bung toàn bộ dữ liệu (title, price_vnd, cover_image...)
       };
     })
@@ -43,7 +43,8 @@ export function getCarsByBrand(brandSlug) {
 }
 
 export function getCarData(brand, slug) {
-  const fullPath = path.join(contentDirectory, brand, `${slug}.mdx`);
+  const safeBrand = brand.toLowerCase();
+  const fullPath = path.join(contentDirectory, safeBrand, `${slug}.mdx`);
 
   // Kiểm tra file có tồn tại không
   if (!fs.existsSync(fullPath)) {
@@ -57,7 +58,7 @@ export function getCarData(brand, slug) {
 
   return {
     slug,
-    brand,
+    brand: safeBrand,
     frontmatter: data, // Chứa title, price, engine...
     content, // Chứa nội dung bài viết và các thẻ <ImageGallery>
   };
