@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tùy chỉnh thêm font hoặc hiệu ứng mượt mà */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #ffffff; /* Nền trắng tinh khiết cho minimalism */
+  color: #171717; /* Chữ đen nhạt (neutral-900) cho đỡ chói mắt */
+}
